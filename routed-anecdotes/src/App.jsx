@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import {
   BrowserRouter as Router,
@@ -76,6 +76,9 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const navigate = useNavigate()
+  const setNotification = props.setNotification
+
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -85,6 +88,10 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+
+    setNotification(`a new anecdote ${content} created!`)
+    setInterval(() => setNotification(""), 5000)
+    navigate("/")
   }
 
   return (
@@ -154,6 +161,7 @@ const App = () => {
       <h1>Software anecdotes</h1>
       <Router>
         <Menu />
+        {notification}
         <Routes>
           <Route path="/anecdotes/:id" element={
             <Anecdote anecdotes={anecdotes} />
@@ -165,7 +173,7 @@ const App = () => {
             <About />
           } />
           <Route path="/create" element={
-            <CreateNew addNew={addNew} />
+            <CreateNew addNew={addNew} setNotification={setNotification} />
           } />
         </Routes>
         <Footer />
