@@ -1,0 +1,39 @@
+{
+  "name": "blogilista",
+  "version": "1.0.0",
+  "description": "blogilistasovellus, jonka avulla käyttäjien on mahdollista tallettaa tietoja Internetistä löytämistään mielenkiintoisista blogeista. Kustakin blogista talletetaan sen kirjoittaja (author), aihe (title), url sekä blogilistasovelluksen käyttäjien antamien äänien määrä.",
+  "homepage": "https://github.com/perttunurmi/fso-osa4#readme",
+  "bugs": {
+    "url": "https://github.com/perttunurmi/fso-osa4/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perttunurmi/fso-osa4.git"
+  },
+  "license": "ISC",
+  "author": "Perttu Nurmi",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test node --test --test-concurrency=1",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development node --watch-path . index.js",
+    "start:test": "cross-env NODE_ENV=test node index.js"
+  },
+  "dependencies": {
+    "@stylistic/eslint-plugin-js": "^4.4.1",
+    "bcrypt": "^6.0.0",
+    "cross-env": "^10.0.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.0",
+    "stylistic": "^0.2.4"
+  },
+  "devDependencies": {
+    "eslint": "^9.33.0",
+    "eslint-config-xo": "^0.46.0",
+    "prettier": "3.8.1",
+    "supertest": "^7.1.4"
+  }
+}
