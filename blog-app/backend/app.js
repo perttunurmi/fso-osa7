@@ -11,7 +11,7 @@ const testingRouter = require('./controllers/testing')
 const app = express()
 
 mongoose
-    .connect(config.MONGODB_URI)
+    .connect(config.MONGODB_URI, { dbName: 'Blogilista' })
     .then(() => {
         logger.info('connected to MongoDB')
     })

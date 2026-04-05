@@ -12,7 +12,8 @@ const getAll = async () => {
     return request.then((response) => response.data)
 }
 
-const create = async (newObj) => {
+const create = async (data) => {
+    const newObj = data.content
     const config = {
         headers: { Authorization: token },
     }
