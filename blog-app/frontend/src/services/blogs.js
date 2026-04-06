@@ -22,7 +22,9 @@ const create = async (data) => {
     return response.data
 }
 
-const update = async (blog) => {
+const update = async (data) => {
+    const blog = data.content
+
     const config = {
         headers: { Authorization: token },
     }
@@ -31,7 +33,9 @@ const update = async (blog) => {
     return response.data
 }
 
-const deleteById = async (id) => {
+const deleteById = async (data) => {
+    const id = data.content.id
+
     const config = {
         headers: { Authorization: token },
     }

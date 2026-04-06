@@ -68,6 +68,20 @@ const App = () => {
         },
     })
 
+    const likeBlogMutation = useMutation({
+        mutationFn: blogService.update,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['blogs'] })
+        },
+    })
+
+    const deleteBlogMutation = useMutation({
+        mutationFn: blogService.deleteById,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['blogs'] })
+        },
+    })
+
     const blogs = result.data
 
     useEffect(() => {
@@ -112,16 +126,12 @@ const App = () => {
     }
 
     const deleteBlog = async (blog) => {
-        await blogService.deleteById(blog.id)
-        const newBlogs = blogs.filter((b) => b.id !== blog.id)
-        setBlogs(newBlogs)
+        await deleteBlogMutation.mutateAsync({ content: blog })
     }
 
     const addLike = async (blog) => {
         blog.likes++
-        await blogService.update(blog)
-        const newBlogs = await blogService.getAll()
-        setBlogs(newBlogs)
+        await likeBlogMutation.mutateAsync({ content: blog })
     }
 
     const loginUser = async (userObj) => {
