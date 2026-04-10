@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef, useReducer } from 'react'
-import Blog from './components/Blog'
+import { useRef, useReducer, useContext } from 'react'
+import Blogs from './components/Blogs'
 import Blogform from './components/Blogform'
 import Loginform from './components/Loginform'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import LoginUserContext from './components/LoginUserContext'
 
 const messageReducer = (state, action) => {
     const blog = action.blog
@@ -23,35 +24,10 @@ const messageReducer = (state, action) => {
     }
 }
 
-const Blogs = ({ blogs, user, deleteBlog, addLike }) => {
-    console.log(blogs)
-    if (blogs) {
-        return (
-            <div>
-                {blogs
-                    .sort((a, b) => {
-                        return b.likes - a.likes
-                    })
-                    .map((blog) => (
-                        <Blog
-                            key={blog.id}
-                            blog={blog}
-                            user={user}
-                            handleDelete={deleteBlog}
-                            addLike={addLike}
-                        />
-                    ))}
-            </div>
-        )
-    } else {
-        return <div></div>
-    }
-}
-
 const App = () => {
     const queryClient = useQueryClient()
 
-    const [user, setUser] = useState(null)
+    const { user, setUser } = useContext(LoginUserContext)
     const [message, messageDispatch] = useReducer(messageReducer, '')
 
     const blogFormRef = useRef()
@@ -83,15 +59,6 @@ const App = () => {
     })
 
     const blogs = result.data
-
-    useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-        if (loggedUserJSON) {
-            const user = JSON.parse(loggedUserJSON)
-            setUser(user)
-            blogService.setToken(user.token)
-        }
-    }, [])
 
     const Notification = ({ message }) => {
         if (!message) {
@@ -176,7 +143,7 @@ const App = () => {
                     <Blogform createBlog={addBlog} />
                 </Togglable>
                 <br />
-                <Blogs blogs={blogs} user={user} deleteBlog={deleteBlog} addLike={addLike} />
+                <Blogs blogs={blogs} deleteBlog={deleteBlog} addLike={addLike} />
             </div>
         )
     }
